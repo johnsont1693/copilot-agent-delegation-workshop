@@ -1,0 +1,23 @@
+## Build outputs
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+.vs/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## dotnet user secrets
+secrets.json
+
+## Local publish profiles
+PublishProfiles/
+
+## NuGet
+*.nupkg
+.nuget/
+packages/

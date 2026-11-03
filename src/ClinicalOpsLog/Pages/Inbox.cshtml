@@ -1,0 +1,31 @@
+@page
+@model ClinicalOpsLog.Pages.InboxModel
+@{
+    ViewData["Title"] = "Message Inbox";
+}
+
+<h1>Clinical Operations Message Inbox</h1>
+
+<p>@Model.TotalCount messages &mdash; @Model.UnacknowledgedCount unacknowledged</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Priority</th>
+            <th>Subject</th>
+            <th>Received</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var msg in Model.Messages)
+        {
+            <tr>
+                <td>@msg.Priority</td>
+                <td>@msg.Subject</td>
+                <td>@msg.ReceivedAt.LocalDateTime.ToString("g")</td>
+                <td>@(msg.IsAcknowledged ? "Acknowledged" : "Pending")</td>
+            </tr>
+        }
+    </tbody>
+</table>
