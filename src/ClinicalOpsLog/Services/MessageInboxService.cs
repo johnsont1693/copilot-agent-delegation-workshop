@@ -4,7 +4,7 @@ namespace ClinicalOpsLog.Services;
 
 public interface IMessageInboxService
 {
-    IReadOnlyList<ClinicalMessage> GetMessages();
+    IReadOnlyList<ClinicalMessage> GetMessages(MessagePriority? priority = null);
     ClinicalMessage? GetById(Guid id);
     void Acknowledge(Guid id);
 }
@@ -17,7 +17,10 @@ public sealed class MessageInboxService : IMessageInboxService
 {
     private readonly List<ClinicalMessage> _messages = SeedData.Messages.ToList();
 
-    public IReadOnlyList<ClinicalMessage> GetMessages() => _messages.AsReadOnly();
+    public IReadOnlyList<ClinicalMessage> GetMessages(MessagePriority? priority = null) =>
+        priority is null
+            ? _messages.AsReadOnly()
+            : _messages.Where(m => m.Priority == priority).ToList().AsReadOnly();
 
     public ClinicalMessage? GetById(Guid id) =>
         _messages.FirstOrDefault(m => m.Id == id);

@@ -1,10 +1,30 @@
 @page
 @model ClinicalOpsLog.Pages.InboxModel
+@using ClinicalOpsLog.Models
 @{
     ViewData["Title"] = "Message Inbox";
 }
 
 <h1>Clinical Operations Message Inbox</h1>
+
+<form method="get">
+    <label for="Priority">Priority</label>
+    <select id="Priority" name="Priority">
+        <option value="">All priorities</option>
+        @foreach (var priority in Enum.GetValues<MessagePriority>())
+        {
+            if (Model.Priority == priority)
+            {
+                <option value="@priority" selected>@priority</option>
+            }
+            else
+            {
+                <option value="@priority">@priority</option>
+            }
+        }
+    </select>
+    <button type="submit">Filter</button>
+</form>
 
 <p>@Model.TotalCount messages &mdash; @Model.UnacknowledgedCount unacknowledged</p>
 
