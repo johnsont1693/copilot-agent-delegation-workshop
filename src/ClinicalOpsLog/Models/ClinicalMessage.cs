@@ -4,7 +4,8 @@ public enum MessagePriority
 {
     Low,
     Medium,
-    High
+    High,
+    Critical
 }
 
 /// <summary>All data in this model is synthetic and does not represent real patient or clinical information.</summary>

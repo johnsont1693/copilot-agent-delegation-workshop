@@ -38,7 +38,7 @@ internal static class SeedData
             Guid.Parse("11111111-0000-0000-0000-000000000004"),
             "Critical alert: ventilator maintenance required",
             "Ventilator unit 2-A has triggered a maintenance alert. Do not assign until serviced.",
-            MessagePriority.High,
+            MessagePriority.Critical,
             DateTimeOffset.UtcNow.AddMinutes(-30),
             IsAcknowledged: false),
 

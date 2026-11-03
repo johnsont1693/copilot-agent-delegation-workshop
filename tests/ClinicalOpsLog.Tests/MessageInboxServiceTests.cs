@@ -1,4 +1,5 @@
 using ClinicalOpsLog.Models;
+using ClinicalOpsLog.Pages;
 using ClinicalOpsLog.Services;
 using FluentAssertions;
 using Xunit;
@@ -14,7 +15,47 @@ public sealed class MessageInboxServiceTests
     {
         var messages = _sut.GetMessages();
 
+        messages.Should().HaveCount(5);
+    }
+
+    [Fact]
+    public void GetMessages_WithCriticalPriority_ReturnsOnlyCriticalMessages()
+    {
+        var messages = _sut.GetMessages(MessagePriority.Critical);
+
         messages.Should().NotBeEmpty();
+        messages.Should().OnlyContain(message => message.Priority == MessagePriority.Critical);
+    }
+
+    [Fact]
+    public void GetMessages_WithHighPriority_ReturnsOnlyHighMessages()
+    {
+        var messages = _sut.GetMessages(MessagePriority.High);
+
+        messages.Should().NotBeEmpty();
+        messages.Should().OnlyContain(message => message.Priority == MessagePriority.High);
+    }
+
+    [Fact]
+    public void OnGet_WithSelectedPriority_PassesPriorityToService()
+    {
+        var page = new InboxModel(_sut) { Priority = MessagePriority.Critical };
+
+        page.OnGet();
+
+        page.Messages.Should().NotBeEmpty();
+        page.Messages.Should().OnlyContain(message => message.Priority == MessagePriority.Critical);
+    }
+
+    [Fact]
+    public void OnGet_WithInvalidPriority_ShowsAllMessages()
+    {
+        var page = new InboxModel(_sut) { Priority = (MessagePriority)999 };
+
+        page.OnGet();
+
+        page.Priority.Should().BeNull();
+        page.Messages.Should().BeEquivalentTo(_sut.GetMessages());
     }
 
     [Fact]
